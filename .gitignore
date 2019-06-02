@@ -34,17 +34,21 @@ __pycache__/
 
 # Distribution / packaging
 .Python
-env/
-build/
-develop-eggs/
-dist/
-downloads/
-eggs/
-lib/
-lib64/
-parts/
-sdist/
-var/
+cres_venv/
+.*build/
+.*develop-eggs/
+.*dist/
+.*downloads/
+.*eggs/
+.*lib/
+.*lib64/
+.*parts/
+.*sdist/
+.*var/
+.*bin/
+.*include/
+.*local/
+.*share/
 *.egg-info/
 .installed.cfg
 *.egg
