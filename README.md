@@ -5,5 +5,5 @@
 
 #### Installation
 
-##### Activate virtual environment
-##### run $ python3 manage.py runserver
+##### - Activate virtual environment
+##### - run $ python3 manage.py runserver
