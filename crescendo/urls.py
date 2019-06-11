@@ -20,4 +20,7 @@ from crescendo.management.views import *
 
 urlpatterns = [
     path('', AboutView.as_view()),
+    url(r'^login/', LoginView.as_view(), name='login'),
+    url(r'^signin/', signin, name='signin'),
+    url(r'^signup/', signup, name='signup'),
 ]
