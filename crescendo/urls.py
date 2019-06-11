@@ -15,7 +15,12 @@ Including another URLconf
 """
 from django.contrib import admin
 from django.urls import path
+from django.conf.urls import url
+from crescendo.management.views import *
 
 urlpatterns = [
-    path('admin/', admin.site.urls),
+    path('', AboutView.as_view()),
+    url(r'^login/', LoginView.as_view(), name='login'),
+    url(r'^signin/', signin, name='signin'),
+    url(r'^signup/', signup, name='signup'),
 ]
