@@ -1,4 +1,4 @@
-from django.shortcuts import render
+from django.shortcuts import *
 from django.http import HttpResponse
 from django.views.generic import TemplateView
 from django import forms
@@ -44,6 +44,7 @@ def signin(request):
 
 
 def signup(request):
+    print(data.user)
 
     name = request.GET.get('name')
     email = request.GET.get('email')
@@ -70,6 +71,25 @@ def signup(request):
     else:
         return render(request, 'login.html', context={'status_message': 'User already exists, please sign in'})
 
+
+def recipes(request):
+    print(data.user)
+    command = """select * from recipe r
+                 left join user2recipe ur on ur.recipe_id = r.id
+                 left join users u on ur.user_id = u.id"""
+
+    cursor.execute(command)
+    rs = cursor.fetchall()
+
+    return render(request, 'recipes.html', context={'recipes': rs if rs else []})
+
+
+def add_recipe(request):
+
+    return render(request, 'add_recipe.html')
+
+def process_recipe(request):
+    pass
 
 
 class LoginForm(forms.Form):
