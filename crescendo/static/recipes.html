@@ -42,6 +42,55 @@
     <section class="slider d-flex align-items-center">
         <!-- <img src="images/slider.jpg" class="img-fluid" alt="#"> -->
     </section>
+
+
+        <section class="main-block light-bg">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-5">
+                    <div class="styled-heading">
+                        <h3>RECIPES</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                {% for recipe in recipes %}
+                <div class="col-md-4 featured-responsive">
+                    <div class="featured-place-wrap">
+                        <a href="detail.html">
+{#                            <img src="images/featured1.jpg" class="img-fluid" alt="#">#}
+                            <span class="featured-rating-orange">6.5</span>
+                            <div class="featured-title-box">
+                                <h6>{{ recipe.name|default:"nothing" }}</h6>
+                                <p>Restaurant </p> <span>• </span>
+                                <p>3 Reviews</p> <span> • </span>
+                                <p><span>$$$</span>$$</p>
+                                <ul>
+                                    <li><span class="icon-location-pin"></span>
+                                        <p>1301 Avenue, Brooklyn, NY 11230</p>
+                                    </li>
+                                    <li><span class="icon-screen-smartphone"></span>
+                                        <p>+44 20 7336 8898</p>
+                                    </li>
+                                    <li><span class="icon-link"></span>
+                                        <p>https://burgerandlobster.com</p>
+                                    </li>
+
+                                </ul>
+                                <div class="bottom-icons">
+                                    <div class="closed-now">CLOSED NOW</div>
+                                    <span class="ti-heart"></span>
+                                    <span class="ti-bookmark"></span>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </section>
     <script>
         $(window).scroll(function() {
             // 100 = The point you would like to fade the nav in.

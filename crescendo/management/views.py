@@ -39,7 +39,7 @@ def signin(request):
         else:
             return render(request, 'login.html', context={'status_message': 'User doesn\'t exist please sign up'})
     else:
-        data.logUser(user[1], user[2], user[3])
+        data.logUser(user[0], user[1], user[2], csrf)
         return render(request, 'index.html', context={'id': user[0]})
 
 
@@ -81,7 +81,15 @@ def recipes(request):
     cursor.execute(command)
     rs = cursor.fetchall()
 
-    return render(request, 'recipes.html', context={'recipes': rs if rs else []})
+    d = []
+    for x in rs:
+        d.append({
+            'name': x[1],
+            'details': x[2]
+        })
+    print(d)
+
+    return render(request, 'recipes.html', context={'recipes': d})
 
 
 def add_recipe(request):
@@ -89,7 +97,38 @@ def add_recipe(request):
     return render(request, 'add_recipe.html')
 
 def process_recipe(request):
-    pass
+
+    name = request.GET.get('recipe_name')
+    details = request.GET.get('details')
+    ingredients = request.GET.get('ingredients')
+    steps = request.GET.get('cooking_steps')
+
+    command = """insert into recipe(name, details) values('{0}', '{1}') returning id""".format(name, details)
+    cursor.execute(command)
+    db.commit()
+    recipe_id = cursor.fetchone()[0]
+
+    command = """insert into user2recipe(user_id, recipe_id) values({0}, {1})""".format(data.user[0], recipe_id)
+    cursor.execute(command)
+    db.commit()
+
+    command = """select r.id, r.name, r.details from recipe r
+                 left join user2recipe ur on ur.recipe_id = r.id
+                 left join users u on ur.user_id = u.id"""
+
+    cursor.execute(command)
+    rs = cursor.fetchall()
+    rs = rs if rs else []
+
+    d = []
+    for x in rs:
+        d.append({
+            'name': x[1],
+            'details': x[2]
+        })
+    print(d)
+
+    return render(request, 'recipes.html', context={'recipes': d})
 
 
 class LoginForm(forms.Form):
