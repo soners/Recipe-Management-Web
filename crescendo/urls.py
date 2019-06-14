@@ -19,11 +19,13 @@ from django.conf.urls import url
 from crescendo.management.views import *
 
 urlpatterns = [
-    path('', AboutView.as_view(), name='main'),
+    path('', main, name='main'),
     url(r'^login/', LoginView.as_view(), name='login'),
     url(r'^signin/', signin, name='signin'),
     url(r'^signup/', signup, name='signup'),
     url(r'^recipes/', recipes, name='recipes'),
     url(r'^add_recipe/', add_recipe, name='add_recipe'),
     url(r'^process_recipe/', process_recipe, name='process_recipe'),
+    url(r'^detail/(\d+)/$', detail, name='detail'),
+    url(r'^delete/(\d+)/$', delete, name='delete'),
 ]

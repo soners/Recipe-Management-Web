@@ -19,6 +19,13 @@ class LoginView(TemplateView):
     template_name = 'login.html'
 
 
+def main(request):
+    if data.user:
+        return render(request, 'index.html', context={'id': data.user[0]})
+    else:
+        return render(request, 'index.html')
+
+
 def signin(request):
     print(data.user)
     email = request.GET.get('email').replace("'", "''")
@@ -84,8 +91,9 @@ def recipes(request):
     d = []
     for x in rs:
         d.append({
+            'id': x[0],
             'name': x[1],
-            'details': x[2]
+            'details': x[2][:100] + '...'
         })
     print(d)
 
@@ -95,6 +103,28 @@ def recipes(request):
 def add_recipe(request):
 
     return render(request, 'add_recipe.html')
+
+
+def detail(request, id):
+
+    command = """select * from recipe where id = {0}""".format(id)
+    cursor.execute(command)
+    recipe = cursor.fetchone()
+
+    return render(request, 'detail.html', context={'id': recipe[0], 'name': recipe[1], 'detail': recipe[2]})
+
+
+def delete(request, id):
+    command = "delete from user2recipe where recipe_id = {0}".format(id)
+    cursor.execute(command)
+    db.commit()
+
+    command = "delete from recipe where id = {0}".format(id)
+    cursor.execute(command)
+    db.commit()
+
+    return render(request, 'index.html', context={'id': data.user[0]})
+
 
 def process_recipe(request):
 
@@ -123,6 +153,7 @@ def process_recipe(request):
     d = []
     for x in rs:
         d.append({
+            'id': x[0],
             'name': x[1],
             'details': x[2]
         })
