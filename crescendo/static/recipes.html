@@ -42,6 +42,48 @@
     <section class="slider d-flex align-items-center">
         <!-- <img src="images/slider.jpg" class="img-fluid" alt="#"> -->
     </section>
+
+
+        <section class="main-block light-bg">
+        <div class="container">
+            <div class="row justify-content-center">
+                <div class="col-md-5">
+                    <div class="styled-heading">
+                        <h3>RECIPES</h3>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                {% for recipe in recipes %}
+                <div class="col-md-6 featured-responsive">
+                    <div class="featured-place-wrap">
+                        <a href="{% url 'detail' recipe.id %}">
+{#                            <img src="images/featured1.jpg" class="img-fluid" alt="#">#}
+                            <span class="featured-rating-orange">6.5</span>
+                            <div class="featured-title-box">
+                                <h6>{{ recipe.name|default:"No recipe name given" }}</h6>
+                                <p>Restaurant </p> <span>• </span>
+                                <p>3 Reviews</p> <span> • </span>
+                                <p><span>$$$</span>$$</p>
+                                <ul>
+                                    <li><span class="icon-location-pin"></span>
+                                        <p>{{ recipe.details|default:"No details given" }}</p>
+                                    </li>
+
+                                </ul>
+
+                                <div class="bottom-icons">
+                                    <div href="{% url 'detail' recipe.id %}" class="closed-now">VIEW DETAILS</div>
+                                </div>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+                {% endfor %}
+            </div>
+
+        </div>
+    </section>
     <script>
         $(window).scroll(function() {
             // 100 = The point you would like to fade the nav in.
