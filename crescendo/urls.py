@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import path
 from django.conf.urls import url
 from crescendo.management.views import *
+from crescendo.management.api import *
 
 urlpatterns = [
     path('', main, name='main'),
@@ -28,4 +29,11 @@ urlpatterns = [
     url(r'^process_recipe/', process_recipe, name='process_recipe'),
     url(r'^detail/(\d+)/$', detail, name='detail'),
     url(r'^delete/(\d+)/$', delete, name='delete'),
+
+
+    # api urls
+    url(r'^api_recipe/(\d+)/$', api_recipe, name='api_recipe'),
+    url(r'^api_recipes/(\d+)/$', api_recipes, name='api_recipes'),
+    url(r'^api_login/$', api_login, name='api_login'),
+    url(r'^api_signup/$', api_signup, name='api_signup'),
 ]
