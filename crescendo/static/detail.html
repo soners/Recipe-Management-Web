@@ -24,13 +24,26 @@
     <!--============================= FIND PLACES =============================-->
     <!--//END FIND PLACES -->
     <!--============================= ADD LISTING =============================-->
+
+
+
+
     <section class="slider fullscreen main-block light-bg">
         <div class="container">
             <div class="login-page">
               <div class="form">
+                      Name
                       <h1>{{ name }}</h1>
+                      Detail
                       <h1>{{ detail }}</h1>
                       <button><a href="{% url 'delete' id %}">Delete</a></button>
+
+                      </br>
+                      </br>
+                      <button><a href="{% url 'recipes' %}">Cancel</a></button>
+
+<!--    <li class="nav-link"><a href = "{% url 'recipes' %}" class="btn btn-secondary top-btn">Back</a></li>-->
+
               </div>
             </div>
         </div>
