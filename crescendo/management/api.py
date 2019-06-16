@@ -181,6 +181,10 @@ def api_delete_recipe(request, id):
     db = connect()
     cursor = db.cursor()
 
+    command = """delete from user2recipe where recipe_id = {0}""".format(id)
+    cursor.execute(command)
+    db.commit()
+
     command = """delete from recipe where id = {0}""".format(id)
     cursor.execute(command)
     db.commit()
