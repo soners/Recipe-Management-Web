@@ -36,4 +36,6 @@ urlpatterns = [
     url(r'^api_recipes/(\d+)/$', api_recipes, name='api_recipes'),
     url(r'^api_login/$', api_login, name='api_login'),
     url(r'^api_signup/$', api_signup, name='api_signup'),
+    url(r'^api_add_recipe/$', api_add_recipe, name='api_add_recipe'),
+    url(r'^api_delete_recipe/(\d+)/$', api_delete_recipe, name='api_delete_recipe'),
 ]
