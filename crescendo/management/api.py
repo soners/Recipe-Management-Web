@@ -141,3 +141,45 @@ def api_signup(request):
         })
 
 
+def api_add_recipe(request):
+
+    name = request.GET.get('name')
+    details = request.GET.get('details')
+
+    if not name or not details:
+        return JsonResponse({'id': 0})
+
+    name = name.replace("'", "''")
+    details = details.replace("'", "''")
+
+    db = connect()
+    cursor = db.cursor()
+
+    command = """insert into recipe(name, details) values('{0}', '{1}') returning id""".format(name, details)
+    cursor.execute(command)
+    recipe_id = cursor.fetchone()[0]
+    db.commit()
+
+    command = """select id, name, details from recipe where id = {0}""".format(recipe_id)
+    cursor.execute(command)
+    recipe = cursor.fetchone()
+
+    return JsonResponse({
+        'id': recipe[0],
+        'name': recipe[1],
+        'details': recipe[2]
+    })
+
+
+def api_delete_recipe(request, id):
+
+    db = connect()
+    cursor = db.cursor()
+
+    command = """delete from recipe where id = {0}""".format(id)
+    cursor.execute(command)
+    db.commit()
+
+    return JsonResponse({'status': 'OK'})
+
+
