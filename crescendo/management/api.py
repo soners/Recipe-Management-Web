@@ -145,8 +145,9 @@ def api_add_recipe(request):
 
     name = request.GET.get('name')
     details = request.GET.get('details')
+    user_id = request.GET.get('user_id')
 
-    if not name or not details:
+    if not name or not details or not user_id:
         return JsonResponse({'id': 0})
 
     name = name.replace("'", "''")
@@ -158,6 +159,10 @@ def api_add_recipe(request):
     command = """insert into recipe(name, details) values('{0}', '{1}') returning id""".format(name, details)
     cursor.execute(command)
     recipe_id = cursor.fetchone()[0]
+    db.commit()
+
+    command = """insert into user2recipe(user_id, recipe_id) values({0}, {1})""".format(user_id, recipe_id)
+    cursor.execute(command)
     db.commit()
 
     command = """select id, name, details from recipe where id = {0}""".format(recipe_id)
