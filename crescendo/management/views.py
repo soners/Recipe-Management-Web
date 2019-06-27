@@ -73,7 +73,9 @@ def signup(request):
         command = "insert into users(name, email, password) values('{0}', '{1}', '{2}') returning id".format(name, email, password)
         cursor.execute(command)
         db.commit()
-        return render(request, 'index.html', context={'id': cursor.fetchone()[0]})
+        user_id = cursor.fetchone()[0]
+        data.logUser(user_id, None, None, None)
+        return render(request, 'index.html', context={'id': user_id})
 
     else:
         return render(request, 'login.html', context={'status_message': 'User already exists, please sign in'})
@@ -83,7 +85,8 @@ def recipes(request):
     print(data.user)
     command = """select * from recipe r
                  left join user2recipe ur on ur.recipe_id = r.id
-                 left join users u on ur.user_id = u.id"""
+                 left join users u on ur.user_id = u.id
+                 where u.id = {0}""".format(data.user[0])
 
     cursor.execute(command)
     rs = cursor.fetchall()
@@ -142,9 +145,10 @@ def process_recipe(request):
     cursor.execute(command)
     db.commit()
 
-    command = """select r.id, r.name, r.details from recipe r
+    command = """select * from recipe r
                  left join user2recipe ur on ur.recipe_id = r.id
-                 left join users u on ur.user_id = u.id"""
+                 left join users u on ur.user_id = u.id
+                 where u.id = {0}""".format(data.user[0])
 
     cursor.execute(command)
     rs = cursor.fetchall()
