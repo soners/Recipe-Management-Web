@@ -36,11 +36,19 @@
                       <h1>{{ name }}</h1>
                       Detail
                       <h1>{{ detail }}</h1>
+
+                      Cooking Steps
+                      {% for o in cooking_steps %}
+                           <h1>{{ o }}</h1>
+                      {% endfor %}
+
+
+
                       <button><a href="{% url 'delete' id %}">Delete</a></button>
 
                       </br>
                       </br>
-                      <button><a href="{% url 'recipes' %}">Cancel</a></button>
+                      <button><a href="{% url 'recipes' %}">Back</a></button>
 
 <!--    <li class="nav-link"><a href = "{% url 'recipes' %}" class="btn btn-secondary top-btn">Back</a></li>-->
 

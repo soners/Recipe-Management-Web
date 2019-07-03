@@ -110,8 +110,11 @@ def detail(request, id):
     command = """select * from recipe where id = {0}""".format(id)
     cursor.execute(command)
     recipe = cursor.fetchone()
-
-    return render(request, 'detail.html', context={'id': recipe[0], 'name': recipe[1], 'detail': recipe[2]})
+    if recipe[3]:
+        steps = recipe[3].split('\n')
+    else:
+        steps = ['No cooking steps given.']
+    return render(request, 'detail.html', context={'id': recipe[0], 'name': recipe[1], 'detail': recipe[2], 'cooking_steps': steps})
 
 
 def delete(request, id):
@@ -131,9 +134,9 @@ def process_recipe(request):
     name = request.GET.get('recipe_name')
     details = request.GET.get('details')
     ingredients = request.GET.get('ingredients')
-    steps = request.GET.get('cooking_steps')
+    cooking_steps = request.GET.get('cooking_steps')
 
-    command = """insert into recipe(name, details) values('{0}', '{1}') returning id""".format(name, details)
+    command = """insert into recipe(name, details, cooking_steps) values('{0}', '{1}', '{2}') returning id""".format(name, details, cooking_steps)
     cursor.execute(command)
     db.commit()
     recipe_id = cursor.fetchone()[0]

@@ -146,17 +146,19 @@ def api_add_recipe(request):
     name = request.GET.get('name')
     details = request.GET.get('details')
     user_id = request.GET.get('user_id')
+    cooking_steps = request.GET.get('cooking_steps')
 
     if not name or not details or not user_id:
         return JsonResponse({'id': 0})
 
     name = name.replace("'", "''")
     details = details.replace("'", "''")
+    cooking_steps = cooking_steps.replace("'", "''")
 
     db = connect()
     cursor = db.cursor()
 
-    command = """insert into recipe(name, details) values('{0}', '{1}') returning id""".format(name, details)
+    command = """insert into recipe(name, details, cooking_steps) values('{0}', '{1}', '{2}') returning id""".format(name, details, cooking_steps)
     cursor.execute(command)
     recipe_id = cursor.fetchone()[0]
     db.commit()
