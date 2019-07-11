@@ -139,6 +139,10 @@ def process_recipe(request):
     details = request.GET.get('details')
     ingredients = request.GET.get('ingredients')
     steps = request.GET.get('cooking_steps')
+    files = request.FILES.getlist('img1')
+    print(len(files),"xdddd")
+    for f in files:
+        print(f, "xdddddddd")
 
     command = """insert into recipe(name, details) values('{0}', '{1}') returning id""".format(name, details)
     cursor.execute(command)
