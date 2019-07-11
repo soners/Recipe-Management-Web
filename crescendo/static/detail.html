@@ -36,11 +36,21 @@
                       <h1>{{ name }}</h1>
                       Detail
                       <h1>{{ detail }}</h1>
-                      <button><a href="{% url 'delete' id %}">Delete</a></button>
+                      <a href="{% url 'delete' id %}"><button>Delete</button></a>
 
                       </br>
                       </br>
-                      <button><a href="{% url 'recipes' %}">Cancel</a></button>
+                      <a href="{% url 'recipes' %}"><button>Cancel</button></a>
+
+
+                      </br>
+                      </br>
+                      <button class="share" onclick="share()">Share</button>
+
+                      </br>
+                      </br>
+                      <input type="text" id="shareText" style="display: none; text-align: center">
+
 
 <!--    <li class="nav-link"><a href = "{% url 'recipes' %}" class="btn btn-secondary top-btn">Back</a></li>-->
 
@@ -74,6 +84,18 @@
             console.log('sea')
             autoExpand(event.target);
         }, false);
+    </script>
+
+    <script>
+        function share(){
+            let copyText = document.getElementById("shareText");
+            copyText.value = "{{ share }}";
+            copyText.select();
+            document.execCommand("copy");
+            copyText.style.display = "flex";
+            copyText.value = "URL Copied to clipboard!";
+        }
+
     </script>
 
 </body>

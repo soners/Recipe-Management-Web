@@ -11,6 +11,9 @@ db = connect()
 cursor = db.cursor()
 logged = False
 
+IP = 'http://35.246.134.21'
+
+
 class AboutView(TemplateView):
     template_name = 'index.html'
 
@@ -110,8 +113,12 @@ def detail(request, id):
     command = """select * from recipe where id = {0}""".format(id)
     cursor.execute(command)
     recipe = cursor.fetchone()
+    recipe_id = recipe[0]
+    recipe_name = recipe[1]
+    recipe_detail = recipe[2]
+    url = '{0}/detail/{1}'.format(IP, recipe_id)
 
-    return render(request, 'detail.html', context={'id': recipe[0], 'name': recipe[1], 'detail': recipe[2]})
+    return render(request, 'detail.html', context={'id': recipe_id, 'name': recipe_name, 'detail': recipe_detail, 'share': url})
 
 
 def delete(request, id):
