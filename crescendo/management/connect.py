@@ -7,7 +7,7 @@ def connect():
     try:
         # connect to the PostgreSQL server
         print('Connecting to the PostgreSQL database...')
-        conn = psycopg2.connect(host='35.184.224.87', user='postgres', password='elysiaN123', dbname='recipe_management_dev')
+        conn = psycopg2.connect(host='35.246.134.21', user='postgres', password='elysiaN123', dbname='recipe_management_dev')
 
         # create a cursor
         cur = conn.cursor()
