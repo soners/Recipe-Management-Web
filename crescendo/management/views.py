@@ -140,7 +140,7 @@ def process_recipe(request):
     ingredients = request.GET.get('ingredients')
     steps = request.GET.get('cooking_steps')
     tags = request.GET.get('tags')
-    command = """insert into recipe(name, details, tags) values('{0}', '{1}', {2}) returning id""".format(name, details, tags)
+    command = """insert into recipe(name, details, tags) values('{0}', '{1}', '{2}') returning id""".format(name, details, tags)
     cursor.execute(command)
     db.commit()
     recipe_id = cursor.fetchone()[0]
