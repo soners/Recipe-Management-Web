@@ -176,6 +176,37 @@ def api_add_recipe(request):
     })
 
 
+def api_add_details_recipe(request, id):
+
+    name = request.GET.get('name')
+    description = request.GET.get('description')
+    ingredients = request.GET.get('ingredients')
+    ingredients_photos_list = request.GET.get('ingredients_photos')
+    cooking_steps = request.GET.get('cooking_steps')
+    cooking_steps_photos_list = request.GET.get('cooking_steps_photos')
+    final_photos_list = request.GET.get('final_photos')
+    """
+    if not name or not description or not ingredients or not ingredients_photos_list or not cooking_steps or not cooking_steps_photos_list or not final_photos_list:
+        return JsonResponse({'id': 0})
+    """
+    db = connect()
+    cursor = db.cursor()
+
+    command = """update recipe set description = {0} where id = {1}""".format(description, id)
+    cursor.execute(command)
+    db.commit()
+
+    command = """update recipe set ingredients = {0} where id = {1}""".format(ingredients, id)
+    cursor.execute(command)
+    db.commit()
+
+    command = """update recipe set cooking_steps = {0} where id = {1}""".format(cooking_steps, id)
+    cursor.execute(command)
+    db.commit()
+
+    return JsonResponse({'status': 'OK'})
+
+
 def api_delete_recipe(request, id):
 
     db = connect()
@@ -190,5 +221,4 @@ def api_delete_recipe(request, id):
     db.commit()
 
     return JsonResponse({'status': 'OK'})
-
 
