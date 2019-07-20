@@ -23,6 +23,9 @@ def api_recipe(request, id):
                 'id': recipe[0],
                 'name': recipe[1],
                 'detail': recipe[2],
+                'abcd' : recipe[3],
+                'abcde': recipe[4],
+                'abcdef': recipe[5],
             })
 
 
@@ -178,7 +181,6 @@ def api_add_recipe(request):
 
 def api_add_details_recipe(request, id):
 
-    name = request.GET.get('name')
     description = request.GET.get('description')
     ingredients = request.GET.get('ingredients')
     ingredients_photos_list = request.GET.get('ingredients_photos')
@@ -192,15 +194,15 @@ def api_add_details_recipe(request, id):
     db = connect()
     cursor = db.cursor()
 
-    command = """update recipe set description = {0} where id = {1}""".format(description, id)
+    command = """update recipe set description = '{0}' where id = {1}""".format(description, id)
     cursor.execute(command)
     db.commit()
 
-    command = """update recipe set ingredients = {0} where id = {1}""".format(ingredients, id)
+    command = """update recipe set ingredients = '{0}' where id = {1}""".format(ingredients, id)
     cursor.execute(command)
     db.commit()
 
-    command = """update recipe set cooking_steps = {0} where id = {1}""".format(cooking_steps, id)
+    command = """update recipe set cooking_steps = '{0}' where id = {1}""".format(cooking_steps, id)
     cursor.execute(command)
     db.commit()
 
