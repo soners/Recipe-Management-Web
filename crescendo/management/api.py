@@ -192,3 +192,30 @@ def api_delete_recipe(request, id):
     return JsonResponse({'status': 'OK'})
 
 
+def api_save_threshold(request, id):
+
+    threshold = request.GET.get('threshold')
+
+    db = connect()
+    cursor = db.cursor()
+
+    command = """update users set delete_threshold  = {0} where id = {0}""".format(int(threshold), id)
+    cursor.execute(command)
+    db.commit()
+
+    return JsonResponse({'status': 'OK'})
+
+
+def api_get_threshold(request, id):
+
+    db = connect()
+    cursor = db.cursor()
+
+    command = """select delete_threshold from users where id = {0}""".format(id)
+    cursor.execute(command)
+    db.commit()
+
+    try:
+        return JsonResponse({'threshold': db.fetchone()[0]})
+    except:
+        return JsonResponse({'threshold': 90})
