@@ -73,7 +73,7 @@ def signup(request):
     cursor.execute(command)
     user = cursor.fetchone()
     if not user:
-        command = "insert into users(name, email, password) values('{0}', '{1}', '{2}') returning id".format(name, email, password)
+        command = "insert into users(name, email, password, delete_threshold) values('{0}', '{1}', '{2}', 90) returning id".format(name, email, password)
         cursor.execute(command)
         db.commit()
         return render(request, 'index.html', context={'id': cursor.fetchone()[0]})
@@ -167,6 +167,31 @@ def process_recipe(request):
     print(d)
 
     return render(request, 'recipes.html', context={'recipes': d})
+
+
+def profile(request):
+    if not data.user:
+        return render(request, 'index.html')
+
+    command = """select delete_threshold from users where id = {0}""".format(data.user[0])
+    cursor.execute(command)
+    threshold = cursor.fetchone()[0]
+
+    return render(request, 'profile.html', context={'threshold': threshold})
+
+
+def save_threshold(request):
+
+    threshold = request.GET.get('threshold')
+
+
+    try:
+        command = """update users set delete_threshold = {0} where id = {1}""".format(int(threshold), data.user[0])
+        cursor.execute(command)
+    except:
+        return render(request, 'profile.html', context={'id': data.user[0], 'status_message': 'Please enter a number!'})
+
+    return render(request, 'index.html', context={'id': data.user[0]})
 
 
 class LoginForm(forms.Form):

@@ -125,7 +125,7 @@ def api_signup(request):
         })
 
     else:
-        command = """insert into users(name, email, password) values('{0}', '{1}', '{2}') returning id""".format(name, email, password)
+        command = """insert into users(name, email, password, delete_threshold) values('{0}', '{1}', '{2}', 90) returning id""".format(name, email, password)
         cursor.execute(command)
         db.commit()
         user_id = cursor.fetchone()

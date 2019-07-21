@@ -29,7 +29,8 @@ urlpatterns = [
     url(r'^process_recipe/', process_recipe, name='process_recipe'),
     url(r'^detail/(\d+)/$', detail, name='detail'),
     url(r'^delete/(\d+)/$', delete, name='delete'),
-
+    url(r'^profile/$', profile, name='profile'),
+    url(r'^save_threshold/$', save_threshold, name='save_threshold'),
 
     # api urls
     url(r'^api_recipe/(\d+)/$', api_recipe, name='api_recipe'),
