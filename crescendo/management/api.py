@@ -206,6 +206,19 @@ def api_add_details_recipe(request, id):
     cursor.execute(command)
     db.commit()
 
+    command = """update recipe set ingredient_photos = '{0}' where id = {1}""".format(ingredients_photos_list, id)
+    cursor.execute(command)
+    db.commit()
+
+    command = """update recipe set cooking_steps_photos = '{0}' where id = {1}""".format(cooking_steps_photos_list, id)
+    cursor.execute(command)
+    db.commit()
+
+    command = """update recipe set final_photos = '{0}' where id = {1}""".format(final_photos_list, id)
+    cursor.execute(command)
+    db.commit()
+
+
     return JsonResponse({'status': 'OK'})
 
 
