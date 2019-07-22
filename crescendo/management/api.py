@@ -8,7 +8,10 @@ def api_recipe(request, id):
         return JsonResponse({})
 
     else:
-        command = """select * from recipe where id = {0}""".format(id)
+        command = """select id, name, details, description,
+                     ingredients, ingredient_photos, 
+                     cooking_steps, cooking_steps_photos,
+                     tags, final_photos from recipe where id = {0}""".format(id)
         db = connect()
         cursor = db.cursor()
         cursor.execute(command)
@@ -23,9 +26,13 @@ def api_recipe(request, id):
                 'id': recipe[0],
                 'name': recipe[1],
                 'detail': recipe[2],
-                'abcd' : recipe[3],
-                'abcde': recipe[4],
-                'abcdef': recipe[5],
+                'description': recipe[3],
+                'ingredients': recipe[4],
+                'ingredient_photos': recipe[5],
+                'cooking_steps': recipe[6],
+                'cooking_steps_photos': recipe[7],
+                'tags': recipe[8],
+                'final_photos': recipe[9]
             })
 
 
