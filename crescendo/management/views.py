@@ -163,6 +163,9 @@ def process_recipe(request):
 
     command = """insert into recipe(id, name, details, ingredients, ingredient_photos, cooking_steps, cooking_steps_photos, tags, final_photos) values({0}, '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}')""".format(id, name, details, ingredients, ing_photos_names, steps, cook_photo_names, tags, final_photo_names)
     cursor.execute(command)
+
+    command = """insert into user2recipe(user_id, recipe_id) values({0}, {1})""".format(data.user[0], id)
+    cursor.execute(command)
     db.commit()
 
     command = """select r.id, r.name, r.details from recipe r

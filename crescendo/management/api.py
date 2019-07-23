@@ -201,7 +201,7 @@ def api_add_details_recipe(request, id):
     db = connect()
     cursor = db.cursor()
 
-    command = """update recipe set description = '{0}' where id = {1}""".format(description, id)
+    command = """update recipe set details = '{0}' where id = {1}""".format(description, id)
     cursor.execute(command)
     db.commit()
 
