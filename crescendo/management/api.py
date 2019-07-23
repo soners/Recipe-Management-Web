@@ -251,7 +251,7 @@ def api_save_threshold(request, id):
     db = connect()
     cursor = db.cursor()
 
-    command = """update users set delete_threshold  = {0} where id = {0}""".format(int(threshold), id)
+    command = """update users set delete_threshold  = {0} where id = {1}""".format(int(threshold), id)
     cursor.execute(command)
     db.commit()
 
