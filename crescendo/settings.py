@@ -55,7 +55,7 @@ ROOT_URLCONF = 'crescendo.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['crescendo/static', 'home/corpse/Recipe-Management-Web/static'],
+        'DIRS': ['home/corpse/rmw/static'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
