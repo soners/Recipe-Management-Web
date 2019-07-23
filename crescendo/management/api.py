@@ -248,7 +248,6 @@ def api_delete_recipe(request, id):
 
     return JsonResponse({'status': 'OK'})
 
-
 def api_save_threshold(request, id):
 
     threshold = request.GET.get('threshold')

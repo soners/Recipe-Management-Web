@@ -28,23 +28,51 @@
         <div class="container">
             <div class="login-page">
               <div class="form">
-                <form class="register-form" action = "{% url "process_recipe" %}"> {% csrf_token %}
-                    <input class="dynamic" name="recipe_name" placeholder="Recipe Name"></input>
+                <form enctype="multipart/form-data" class="register-form" action = "{% url 'process_recipe' %}"> {% csrf_token %}
+                    <input class="dynamic" name="id" placeholder="Recipe Name" style="display:none" value="{{ id }}">
+                    <input class="dynamic" id="ing_photo" name="ing_photo" placeholder="Recipe Name" style="display:none" value="">
+                    <input class="dynamic" id="cook_photo" name="cook_photo" placeholder="Recipe Name" style="display:none" value="">
+                    <input class="dynamic" id="final_photo" name="final_photo" placeholder="Recipe Name" style="display:none" value="">
+                    <input class="dynamic" name="recipe_name" placeholder="Recipe Name" value="" >
                     <textarea class="dynamic" name="details" placeholder="Details"></textarea>
                     <textarea class="dynamic" name="ingredients" placeholder="Ingredients"></textarea>
-                    <button style="">Upload Ingredient Photos</button>
-                    </br>
-                    </br>
+
+                    <button style=""> Upload Ingredient Photos
+                        <input type="file" name="files[]" id="files" required multiple>
+                    </button>
+                    <br><br>
+
+                    <button type="button" onclick="uploadingredient()">Upload</button><br><br>
+
+
+                    <br>
+                    <br>
                     <textarea class="dynamic" name="cooking_steps" placeholder="Cooking Steps"></textarea>
-                    </br>
-                    <button style="">Upload Step Photos</button>
-                    </br>
-                    </br>
-                    <button style="">Upload Food Photos</button>
-                    </br>
-                    </br>
+                    <br>
+
+
+                    <button style=""> Upload Cooking Steps Photos
+                        <input type="file" name="files[]" id="files2" required multiple>
+                    </button>
+                    <br><br>
+
+                    <button type="button" onclick="uploadStep()">Upload</button><br><br>
+
+
+                    <br>
+                    <br>
+
+                    <button style=""> Upload Food Photos
+                        <input type="file" name="files[]" id="files3" required multiple>
+                    </button>
+                    <br><br>
+
+                    <button type="button" onclick="uploadFood()">Upload</button><br><br>
+
+                    <br>
+                    <br>
                     <textarea class="dynamic" name="tags" placeholder="Tags"></textarea>
-                    </br>
+                    <br>
                     <button>Save</button>
                 </form>
               </div>
@@ -78,6 +106,133 @@
             autoExpand(event.target);
         }, false);
     </script>
+
+    <script>
+          function uploadingredient(){
+              var storage = firebase.storage();
+              var files = document.getElementById("files").files;
+
+
+              document.getElementById("ing_photo").value = files.length;
+              console.log(files.length);
+              for(let i = 0; i<files.length; i++) {
+                  var file = files[i];
+                  console.log(file);
+                  var storageRef = storage.ref();
+                  var user_id = {{ user_id }};
+                  var recipe_id = {{ id }};
+                  var thisref = storageRef.child(user_id + "/" + recipe_id + "/ing_photo" + (i+1)+ ".jpg").put(file);
+
+
+                      thisref.on('state_changed',function(snapshot){
+
+                      console.log("file uplaoded succesfully");
+                      console.log(snapshot);
+
+                      },  function(error) {
+
+                      },  function() {
+                      // Upload completed successfully, now we can get the download URL
+                      console.log("uploaded");
+
+                    });
+
+               }
+
+          }
+
+          function uploadStep(){
+              var storage = firebase.storage();
+              var files = document.getElementById("files2").files;
+
+
+              document.getElementById("cook_photo").value = files.length;
+              console.log(files.length);
+              for(let i = 0; i<files.length; i++) {
+                  var file = files[i];
+                  console.log(file);
+                  var storageRef = storage.ref();
+                  var user_id = {{ user_id }};
+                  var recipe_id = {{ id }};
+                  var thisref = storageRef.child(user_id + "/" + recipe_id + "/cook_photo" + (i+1)+ ".jpg").put(file);
+
+
+                      thisref.on('state_changed',function(snapshot){
+
+                      console.log("file uplaoded succesfully");
+                      console.log(snapshot);
+
+                      },  function(error) {
+
+                      },  function() {
+                      // Upload completed successfully, now we can get the download URL
+                      console.log("uploaded");
+
+                    });
+
+               }
+
+
+          }
+
+
+          function uploadFood(){
+              var storage = firebase.storage();
+              var files = document.getElementById("files3").files;
+
+
+              document.getElementById("final_photo").value = files.length;
+              console.log(files.length);
+              for(let i = 0; i<files.length; i++) {
+                  var file = files[i];
+                  console.log(file);
+                  var storageRef = storage.ref();
+                  var user_id = {{ user_id }};
+                  var recipe_id = {{ id }};
+                  var thisref = storageRef.child(user_id + "/" + recipe_id + "/final_photo" + (i+1)+ ".jpg").put(file);
+
+
+                      thisref.on('state_changed',function(snapshot){
+
+                      console.log("file uplaoded succesfully");
+                      console.log(snapshot);
+
+                      },  function(error) {
+
+                      },  function() {
+                      // Upload completed successfully, now we can get the download URL
+                      console.log("uploaded");
+
+                    });
+
+               }
+
+          }
+
+
+
+    </script>
+
+<!-- The core Firebase JS SDK is always required and must be listed first -->
+<script src="https://www.gstatic.com/firebasejs/6.2.4/firebase.js"></script>
+
+<!-- TODO: Add SDKs for Firebase products that you want to uses
+     https://firebase.google.com/docs/web/setup#config-web-app -->
+
+<script>
+  // Your web app's Firebase configuration
+  var firebaseConfig = {
+    apiKey: "AIzaSyCJh9Wr_F2Z4-XghXT6x13Y7SGlF_kgNqk",
+    authDomain: "ccrescendo-ff945.firebaseapp.com",
+    databaseURL: "https://ccrescendo-ff945.firebaseio.com",
+    projectId: "ccrescendo-ff945",
+    storageBucket: "ccrescendo-ff945.appspot.com",
+    messagingSenderId: "713564167342",
+    appId: "1:713564167342:web:63b50956d7e9b275"
+  };
+  // Initialize Firebase
+  firebase.initializeApp(firebaseConfig);
+</script>
 
 </body>
 
