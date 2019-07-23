@@ -1,0 +1,72 @@
+<!DOCTYPE html>
+<html lang="en">
+
+{% load static %}
+<head>
+    <!-- Required meta tags -->
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+    <!-- Page Title -->
+    <title>Crescendo - Recipe Management</title>
+
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.0/jquery.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.4.0/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="{% static "css/style.css" %}">
+    <link rel="stylesheet" type="text/css" href="{% static "css/login.css" %}">
+
+</head>
+
+<body>
+    <!--============================= HEADER =============================-->
+    <!--//END HEADER -->
+    <!--============================= FIND PLACES =============================-->
+    <!--//END FIND PLACES -->
+    <!--============================= ADD LISTING =============================-->
+    <section class="slider fullscreen main-block light-bg">
+        <div class="container">
+            <div class="login-page">
+              <div class="form">
+                <form class="register-form" action = "{% url "save_threshold" %}">
+                    <p>Current threshold: {{ threshold }}</p>
+                    <textarea class="dynamic" name="threshold" placeholder="Threshold"></textarea>
+                    <p class="message">{{ status_message }}</p>
+                    </br>
+                    <button>Save</button>
+                </form>
+              </div>
+            </div>
+        </div>
+    </section>
+
+    <script>
+        $('form').animate({height: "toggle", opacity: "toggle"}, "slow");
+        var autoExpand = function (field) {
+
+            // Reset field height
+            field.style.height = 'inherit';
+
+            // Get the computed styles for the element
+            var computed = window.getComputedStyle(field);
+
+            // Calculate the height
+            var height = parseInt(computed.getPropertyValue('border-top-width'), 10)
+                         + parseInt(computed.getPropertyValue('padding-top'), 10)
+                         + field.scrollHeight
+                         + parseInt(computed.getPropertyValue('padding-bottom'), 10)
+                         + parseInt(computed.getPropertyValue('border-bottom-width'), 10);
+
+            field.style.height = height + 'px';
+
+        };
+
+        document.addEventListener('input', function (event) {
+            console.log('sea')
+            autoExpand(event.target);
+        }, false);
+    </script>
+
+</body>
+
+</html>
