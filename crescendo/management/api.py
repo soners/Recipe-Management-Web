@@ -194,6 +194,7 @@ def api_add_details_recipe(request, id):
     cooking_steps = request.GET.get('cooking_steps')
     cooking_steps_photos_list = request.GET.get('cooking_steps_photos')
     final_photos_list = request.GET.get('final_photos')
+    tags = request.GET.get('tags')
     """
     if not name or not description or not ingredients or not ingredients_photos_list or not cooking_steps or not cooking_steps_photos_list or not final_photos_list:
         return JsonResponse({'id': 0})
@@ -225,6 +226,9 @@ def api_add_details_recipe(request, id):
     cursor.execute(command)
     db.commit()
 
+    command = """update recipe set tags = '{0}' where id = {1}""".format(tags, id)
+    cursor.execute(command)
+    db.commit()
 
     return JsonResponse({'status': 'OK'})
 
