@@ -265,10 +265,9 @@ def api_get_threshold(request, id):
 
     command = """select delete_threshold from users where id = {0}""".format(id)
     cursor.execute(command)
-    db.commit()
 
     try:
-        return JsonResponse({'threshold': db.fetchone()[0]})
+        return JsonResponse({'threshold': cursor.fetchone()[0]})
     except:
         return JsonResponse({'threshold': 90})
 
