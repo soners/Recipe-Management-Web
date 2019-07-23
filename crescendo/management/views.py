@@ -104,8 +104,13 @@ def recipes(request):
 
 
 def add_recipe(request):
-
-    return render(request, 'add_recipe.html')
+    command = """insert into recipe(name) values('') returning id"""
+    cursor.execute(command)
+    recipe_id = cursor.fetchone()[0]
+    return render(request, 'add_recipe.html', context={
+        'id': recipe_id,
+        'user_id': data.user[0]
+    })
 
 
 def detail(request, id):
@@ -135,23 +140,28 @@ def delete(request, id):
 
 def process_recipe(request):
 
+    id = request.GET.get('id')
     name = request.GET.get('recipe_name')
     details = request.GET.get('details')
     ingredients = request.GET.get('ingredients')
     steps = request.GET.get('cooking_steps')
-    files = request.FILES.getlist('img1')
-    print(len(files),"xdddd")
-    for f in files:
-        print(f, "xdddddddd")
-
-    command = """insert into recipe(name, details) values('{0}', '{1}') returning id""".format(name, details)
     tags = request.GET.get('tags')
-    command = """insert into recipe(name, details, tags) values('{0}', '{1}', '{2}') returning id""".format(name, details, tags)
+    ingphotos = request.GET.get('ing_photo')
+    cookphotos = request.GET.get('cook_photo')
+    finalphotos = request.GET.get('final_photo')
+
+
+
+    ing_photos_names = ','.join(["{0}/{1}/ing_photo{2}.jpg".format(data.user[0], id, i+1) for i in range(int(ingphotos))])
+    cook_photo_names = ','.join(["{0}/{1}/cook_photo{2}.jpg".format(data.user[0], id, i+1) for i in range(int(cookphotos))])
+    final_photo_names = ','.join(["{0}/{1}/final_photo{2}.jpg".format(data.user[0], id, i+1) for i in range(int(finalphotos))])
+
+
+    command = """delete from recipe where id = {0}""".format(id)
     cursor.execute(command)
     db.commit()
-    recipe_id = cursor.fetchone()[0]
 
-    command = """insert into user2recipe(user_id, recipe_id) values({0}, {1})""".format(data.user[0], recipe_id)
+    command = """insert into recipe(id, name, details, ingredients, ingredient_photos, cooking_steps, cooking_steps_photos, tags, final_photos) values({0}, '{1}', '{2}', '{3}', '{4}', '{5}', '{6}', '{7}', '{8}')""".format(id, name, details, ingredients, ing_photos_names, steps, cook_photo_names, tags, final_photo_names)
     cursor.execute(command)
     db.commit()
 
