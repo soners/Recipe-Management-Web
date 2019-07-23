@@ -55,7 +55,7 @@ ROOT_URLCONF = 'crescendo.urls'
 TEMPLATES = [
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': ['home/corpse/rmw/crescendo/static'],
+        'DIRS': ['crescendo/static', 'home/corpse/rmw/crescendo/static'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
