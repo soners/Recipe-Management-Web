@@ -79,11 +79,11 @@ def api_search_recipe(request) :
     db = connect()
     cursor = db.cursor()
 
-    command = """select * from recipe where tags ilike '{0}' or 
-                                             description ilike '{0}' or
-                                             details ilike '{0}' or
-                                             cooking_steps ilike '{0}' or
-                                             ingredients ilike '{0}'""".format(search)
+    command = """select * from recipe where tags ilike '%{0}%' or 
+                                             description ilike '%{0}%' or
+                                             details ilike '%{0}%' or
+                                             cooking_steps ilike '%{0}%' or
+                                             ingredients ilike '%{0}%'""".format(search)
     cursor.execute(command)
     recipes = cursor.fetchall()
 
