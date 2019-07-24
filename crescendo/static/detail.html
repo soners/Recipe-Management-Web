@@ -30,19 +30,51 @@
 
 
     <section class="slider fullscreen main-block light-bg">
-        <div class="container">
+{#        <div class="container">#}
             <div class="login-page">
               <div class="form">
                       Name
                       <h1>{{ name }}</h1>
+
+                      </br>
                       Detail
-                      <h1>{{ detail }}</h1>
+                      <h1>{{ details }}</h1>
+
+                      </br>
+                      Ingredients
+                      <h1>{{ ingredients }}</h1>
+
+
+                      </br>
+                      Ingredients Photos
+                      {% for ingredient_photo in ingredients_photos %}
+                          <h1>SEA</h1>
+                          <img src="{{ingredient_photo|safe}}">
+                      {% endfor %}
+
+                      </br>
+
+                      Cooking Steps
+                      <h1>{{ cooking_steps }}</h1>
+
+                      </br>
+                      Cooking Steps Photos
+                      {% for cooking_steps_photo in cooking_steps_photos %}
+                          <img src="{{cooking_steps_photo|safe}}" style="width: 100%;">
+                      {% endfor %}
+
+                      </br>
+                      Food Photos
+                      {% for food_photo in food_photos %}
+                          <img src="{{food_photo|safe}}" style="width: 100%;">
+                      {% endfor %}
+
+                      </br>
                       <a href="{% url 'delete' id %}"><button>Delete</button></a>
 
                       </br>
                       </br>
                       <a href="{% url 'recipes' %}"><button>Cancel</button></a>
-
 
                       </br>
                       </br>
