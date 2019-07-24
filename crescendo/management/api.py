@@ -71,6 +71,41 @@ def api_recipes(request, id):
             })
 
 
+def api_search_recipe(request) :
+
+    search = request.GET.get('search')
+    print(search)
+
+    db = connect()
+    cursor = db.cursor()
+
+    command = """select * from recipe where tags ilike '{0}' or 
+                                             description ilike '{0}' or
+                                             details ilike '{0}' or
+                                             cooking_steps ilike '{0}' or
+                                             ingredients ilike '{0}'""".format(search)
+    cursor.execute(command)
+    recipes = cursor.fetchall()
+
+    if not recipes:
+        return JsonResponse({
+            'recipes': []
+        })
+    else:
+        data = []
+
+        for recipe in recipes:
+            data.append({
+                'id': recipe[0],
+                'name': recipe[1],
+                'details': recipe[2],
+            })
+
+        return JsonResponse({
+            'recipes': data
+        })
+
+
 def api_login(request):
 
     email = request.GET.get('email')
