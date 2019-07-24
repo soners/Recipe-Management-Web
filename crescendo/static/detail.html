@@ -46,10 +46,10 @@
 
 
                       </br>
-                      Ingredients Photos
-                      {% for ingredient_photo in ingredients_photos %}
-                          <h1>SEA</h1>
-                          <img src="{{ingredient_photo|safe}}">
+                      Ingredients
+                      {% for ingredient_photo in ing_photos %}
+                      </br>
+                          <img src="{{ingredient_photo|safe}}" style="width: 50%">
                       {% endfor %}
 
                       </br>
@@ -58,15 +58,18 @@
                       <h1>{{ cooking_steps }}</h1>
 
                       </br>
-                      Cooking Steps Photos
+                      Cooking Steps
                       {% for cooking_steps_photo in cooking_steps_photos %}
+                      </br>
                           <img src="{{cooking_steps_photo|safe}}" style="width: 100%;">
                       {% endfor %}
 
                       </br>
                       Food Photos
-                      {% for food_photo in food_photos %}
+                      {% for food_photo in final_photos %}
+                      </br>
                           <img src="{{food_photo|safe}}" style="width: 100%;">
+                      </br>
                       {% endfor %}
 
                       </br>
