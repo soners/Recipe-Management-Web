@@ -147,7 +147,6 @@ def detail(request, id):
         final_photos = []
 
 
-    print(x[8].split(','))
     d = {
         'id': x[0],
         'name': x[1],
