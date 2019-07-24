@@ -49,6 +49,12 @@
             <div class="row justify-content-center">
                 <div class="col-md-5">
                     <div class="styled-heading">
+                        <div class="form">
+                            <form enctype="multipart/form-data" class="register-form" action = "{% url 'search_recipe' %}">
+                                <input id="search" name="search" type="text" placeholder="Search..">
+                                <button>Search</button>
+                            </form>
+                        </div>
                         <h3>RECIPES</h3>
                     </div>
                 </div>
@@ -85,6 +91,7 @@
         </div>
     </section>
     <script>
+
         $(window).scroll(function() {
             // 100 = The point you would like to fade the nav in.
 
