@@ -44,6 +44,6 @@ urlpatterns = [
 
     url(r'^api_get_threshold/(\d+)/$', api_get_threshold, name='api_get_threshold'),
     url(r'^api_save_threshold/(\d+)/$', api_save_threshold, name='api_save_threshold'),
-    url(r'^api_searhc_recipe/$', api_search_recipe, name='api_search_recipe'),
+    url(r'^api_search_recipe/$', api_search_recipe, name='api_search_recipe'),
 
 ]
