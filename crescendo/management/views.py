@@ -213,6 +213,42 @@ def save_threshold(request):
     return render(request, 'index.html', context={'id': data.user[0]})
 
 
+def search_recipe(request):
+
+    search = request.GET.get('search')
+    print(search)
+
+    db = connect()
+    cursor = db.cursor()
+
+    command = """select * from recipe where tags ilike '%{0}%' or
+                                             description ilike '%{0}%' or
+                                             details ilike '%{0}%' or
+                                             cooking_steps ilike '%{0}%' or
+                                             ingredients ilike '%{0}%'""".format(search)
+    print(command)
+    cursor.execute(command)
+    recipes = cursor.fetchall()
+
+    if not recipes:
+        return render(request, 'recipes.html', {
+            'recipes': []
+        })
+    else:
+        data = []
+
+        for recipe in recipes:
+            data.append({
+                'id': recipe[0],
+                'name': recipe[1],
+                'details': recipe[2],
+            })
+
+        return render(request, 'recipes.html', {
+            'recipes': data
+        })
+
+
 class LoginForm(forms.Form):
     email = forms.CharField()
     password = forms.CharField()

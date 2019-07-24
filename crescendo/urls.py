@@ -31,6 +31,7 @@ urlpatterns = [
     url(r'^delete/(\d+)/$', delete, name='delete'),
     url(r'^profile/$', profile, name='profile'),
     url(r'^save_threshold/$', save_threshold, name='save_threshold'),
+    url(r'^search_recipe/$', search_recipe, name='search_recipe'),
 
     # api urls
     url(r'^api_recipe/(\d+)/$', api_recipe, name='api_recipe'),
