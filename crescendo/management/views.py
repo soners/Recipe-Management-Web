@@ -115,15 +115,51 @@ def add_recipe(request):
 
 def detail(request, id):
 
-    command = """select * from recipe where id = {0}""".format(id)
+    command = """select r.id, r.name, r.details, r.ingredients, r.ingredient_photos, 
+                 r.cooking_steps, r.cooking_steps_photos, r.tags, r.final_photos 
+                 from recipe r
+                 where r.id = {0}""".format(id)
     cursor.execute(command)
-    recipe = cursor.fetchone()
-    recipe_id = recipe[0]
-    recipe_name = recipe[1]
-    recipe_detail = recipe[2]
-    url = '{0}/detail/{1}'.format(IP, recipe_id)
+    x = cursor.fetchone()
 
-    return render(request, 'detail.html', context={'id': recipe_id, 'name': recipe_name, 'detail': recipe_detail, 'share': url})
+    if not x:
+        return render(request, 'detail.html', context={'id': 0})
+
+    url = '{0}/detail/{1}'.format(IP, x[0])
+
+    firebase_url = 'https://firebasestorage.googleapis.com/v0/b/ccrescendo-ff945.appspot.com/o'
+    if x[4]:
+        lenn = len(x[4].split(','))
+        ing_photos = ["{0}/{1}%2F{2}%2Fing_photo{3}.jpg?alt=media".format(firebase_url, data.user[0], x[0], (i+1)) for i in range(lenn)]
+    else:
+        ing_photos = []
+
+    if x[6]:
+        lenn = len(x[6].split(','))
+        cook_photos = ["{0}/{1}%2F{2}%2Fcook_photo{3}.jpg?alt=media".format(firebase_url, data.user[0], x[0], (i+1)) for i in range(lenn)]
+    else:
+        cook_photos = []
+
+    if x[8]:
+        lenn = len(x[8].split(','))
+        final_photos = ["{0}/{1}%2F{2}%2Ffinal_photo{3}.jpg?alt=media".format(firebase_url, data.user[0], x[0], (i+1)) for i in range(lenn)]
+    else:
+        final_photos = []
+
+    d = {
+        'id': x[0],
+        'name': x[1],
+        'details': x[2],
+        'ingredients': x[3],
+        'ing_photos': ing_photos,
+        'cooking_steps': x[5],
+        'cooking_steps_photos': cook_photos,
+        'tags': x[7],
+        'final_photos': final_photos,
+        'share': url,
+    }
+
+    return render(request, 'detail.html', context=d)
 
 
 def delete(request, id):
@@ -152,9 +188,19 @@ def process_recipe(request):
 
 
 
-    ing_photos_names = ','.join(["{0}/{1}/ing_photo{2}.jpg".format(data.user[0], id, i+1) for i in range(int(ingphotos))])
-    cook_photo_names = ','.join(["{0}/{1}/cook_photo{2}.jpg".format(data.user[0], id, i+1) for i in range(int(cookphotos))])
-    final_photo_names = ','.join(["{0}/{1}/final_photo{2}.jpg".format(data.user[0], id, i+1) for i in range(int(finalphotos))])
+    try:
+        ing_photos_names = ','.join(["{0}/{1}/ing_photo{2}.jpg".format(data.user[0], id, i+1) for i in range(int(ingphotos))])
+    except:
+        ing_photos_names = None
+
+    try:
+        cook_photo_names = ','.join(["{0}/{1}/cook_photo{2}.jpg".format(data.user[0], id, i+1) for i in range(int(cookphotos))])
+    except:
+        cook_photo_names = None
+    try:
+        final_photo_names = ','.join(["{0}/{1}/final_photo{2}.jpg".format(data.user[0], id, i+1) for i in range(int(finalphotos))])
+    except:
+        final_photo_names = None
 
 
     command = """delete from recipe where id = {0}""".format(id)
